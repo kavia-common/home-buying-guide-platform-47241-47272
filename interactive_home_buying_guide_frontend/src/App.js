@@ -1,48 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import './theme.css';
 
-// PUBLIC_INTERFACE
+import Dashboard from './pages/Dashboard';
+import StepDetail from './pages/StepDetail';
+import ResourcesPage from './pages/Resources';
+import ProgressPage from './pages/Progress';
+
+/**
+ * PUBLIC_INTERFACE
+ * App renders the application shell with header and routes.
+ */
 function App() {
-  const [theme, setTheme] = useState('light');
-
-  // Effect to apply theme to document element
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  // PUBLIC_INTERFACE
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="app-shell">
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/steps/:stepId" element={<StepDetail />} />
+            <Route path="/resources" element={<ResourcesPage />} />
+            <Route path="/progress" element={<ProgressPage />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
+  );
+}
+
+function Header() {
+  return (
+    <header className="header" role="navigation" aria-label="Top navigation">
+      <div className="brand">
+        <div className="brand-badge" aria-hidden="true" />
+        <span>Home Buying Guide</span>
+      </div>
+      <nav style={{ display: 'flex', gap: 12 }}>
+        <Link className="btn" to="/">Home</Link>
+        <Link className="btn" to="/resources">Resources</Link>
+        <Link className="btn" to="/progress">Progress</Link>
+      </nav>
+    </header>
   );
 }
 
