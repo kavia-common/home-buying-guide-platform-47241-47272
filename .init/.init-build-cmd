@@ -1,0 +1,4 @@
+{
+    "command": "npm install && npx tsc --noEmit && npm test -- --ci",
+    "working_directory": "/home/kavia/workspace/code-generation/home-buying-guide-platform-47241-47272/interactive_home_buying_guide_frontend"
+}
